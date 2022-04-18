@@ -7,6 +7,12 @@
 const nodemiler = require("nodemailer")
 const {google} = require("googleapis")
 const FXLSX = require('xlsx')
+const express = require("express")
+const app = express();
+const { appengine } = require("googleapis/build/src/apis/appengine")
+
+app.use(express.json())
+
 const workbook = FXLSX.readFile(`rdd/RDD_Brejinho.xlsx`)
 const workbookSheets = workbook.SheetNames
 const sheet = workbookSheets[0]
@@ -55,7 +61,7 @@ async function sendMail(){
     }
 }
 
-sendMail().then(result => console.log('Email enviado', result)).catch(error => console.log(error.message))
+//sendMail().then(result => console.log('Email enviado', result)).catch(error => console.log(error.message))
 //console.log(xlsxToJson)
 //---------------------------------------------------------------------------------------------------------------
 
@@ -68,3 +74,7 @@ function dataAtualFormatada(){
     anoF = data.getFullYear();
     return diaF+"/"+mesF+"/"+anoF;
 }
+
+app.listen('3000', () =>{
+    console.log('server running on port 3000');
+})

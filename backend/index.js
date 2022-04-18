@@ -6,12 +6,16 @@
 //Senha2022#
 const nodemiler = require("nodemailer")
 const {google} = require("googleapis")
+const cors = require('cors')
 const FXLSX = require('xlsx')
 const express = require("express")
+const bodyParser = require("body-parser")
 const app = express();
 const { appengine } = require("googleapis/build/src/apis/appengine")
 
 app.use(express.json())
+app.use(cors())
+app.use(bodyParser.json())
 
 const workbook = FXLSX.readFile(`rdd/RDD_Brejinho.xlsx`)
 const workbookSheets = workbook.SheetNames
@@ -48,7 +52,7 @@ async function sendMail(){
             text:'deu certo finalmente',
             attachments: [
                         {
-                            filename: `RDD_Brejinho.xlsx`,
+                            filename: `RDD_Brejinho-${dataAtualFormatada()}.xlsx`,
                             path: `rdd/RDD_Brejinho.xlsx`
                         }
                     ]
@@ -61,7 +65,7 @@ async function sendMail(){
     }
 }
 
-//sendMail().then(result => console.log('Email enviado', result)).catch(error => console.log(error.message))
+sendMail().then(result => console.log('Email enviado', result)).catch(error => console.log(error.message))
 //console.log(xlsxToJson)
 //---------------------------------------------------------------------------------------------------------------
 
@@ -74,6 +78,13 @@ function dataAtualFormatada(){
     anoF = data.getFullYear();
     return diaF+"/"+mesF+"/"+anoF;
 }
+
+app.post('/tasks', async (req, res) =>{
+    
+    const task = req.body
+    //const task = req.params
+    console.log(task)
+})
 
 app.listen('3000', () =>{
     console.log('server running on port 3000');

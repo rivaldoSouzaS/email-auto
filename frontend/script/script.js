@@ -56,3 +56,12 @@ const sendTask = async(task)=>{
     console.log(task)
     const result = await axios.post(`http://localhost:3000/tasks`,task);
 }
+
+const getTasks = async()=>{
+    const result = await axios.get(`http://localhost:3000/tasks`);
+
+    console.log(result)
+}
+
+
+getTasks()

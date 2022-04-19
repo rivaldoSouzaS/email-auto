@@ -65,7 +65,7 @@ async function sendMail(){
     }
 }
 
-sendMail().then(result => console.log('Email enviado', result)).catch(error => console.log(error.message))
+//sendMail().then(result => console.log('Email enviado', result)).catch(error => console.log(error.message))
 //console.log(xlsxToJson)
 //---------------------------------------------------------------------------------------------------------------
 
@@ -82,8 +82,17 @@ function dataAtualFormatada(){
 app.post('/tasks', async (req, res) =>{
     
     const task = req.body
-    //const task = req.params
-    console.log(task)
+    xlsxToJson.push(task)
+    //xlsxToJson.pop(1)
+
+    FXLSX.utils.sheet_add_json(workbook.Sheets[sheet], xlsxToJson)
+    FXLSX.writeFile(workbook,`rdd/RDD_Brejinho.xlsx`)
+    //console.log(xlsxToJson)
+})
+
+app.get('/tasks', async (req, res) =>{
+    const xlsxToJson = FXLSX.utils.sheet_to_json(workbook.Sheets[sheet], {raw: false})
+    res.send(xlsxToJson)
 })
 
 app.listen('3000', () =>{

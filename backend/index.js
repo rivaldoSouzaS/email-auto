@@ -8,6 +8,7 @@ const nodemiler = require("nodemailer")
 const {google} = require("googleapis")
 const cors = require('cors')
 const FXLSX = require('xlsx')
+const Exceljs = require('exceljs')
 const express = require("express")
 const bodyParser = require("body-parser")
 const app = express();
@@ -82,12 +83,38 @@ function dataAtualFormatada(){
 app.post('/tasks', async (req, res) =>{
     
     const task = req.body
-    xlsxToJson.push(task)
+    //xlsxToJson.push(task)
     //xlsxToJson.pop(1)
 
-    FXLSX.utils.sheet_add_json(workbook.Sheets[sheet], xlsxToJson)
-    FXLSX.writeFile(workbook,`rdd/RDD_Brejinho.xlsx`)
+    //FXLSX.utils.sheet_add_json(workbook.Sheets[sheet], xlsxToJson)
+    //FXLSX.writeFile(workbook,`rdd/RDD_Brejinho.xlsx`)
     //console.log(xlsxToJson)
+
+    const workbookExcel = new Exceljs.Workbook()
+    const sheet = workbookExcel.addWorksheet('RDD')
+    sheet.columns = [
+        {header: 'TIPO_DE_SERVICO', key:'TIPO_DE_SERVICO'},
+        {header: 'LOCALIDADE', key:'LOCALIDADE'},
+        {header: '', key:'HORA_INICIO'},
+        {header: 'HORA_FIM', key:'HORA_FIM'},
+        {header: 'TMA', key:'TMA'},
+        {header: 'EQUIPE_EXECUTORA', key:'EQUIPE_EXECUTORA'},
+        {header: 'DATA', key:'DATA'}
+    ]
+
+    sheet.addRow(task)
+
+    // sheet.addRow({
+    //     TIPO_DE_SERVICO: 'manutenção',
+    //     LOCALIDADE: 'Mussambe',
+    //     HORA_INICIO: '10:00',
+    //     HORA_FIM: '11:00',
+    //     TMA: '1:00',
+    //     EQUIPE_EXECUTORA: 'Rivaldo',
+    //     DATA: '19/04/2022'
+    // })
+
+    sheet.workbook.xlsx.writeFile('rdd/RDD_Brejinho.xlsx')
 })
 
 app.get('/tasks', async (req, res) =>{

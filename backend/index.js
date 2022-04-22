@@ -1,14 +1,13 @@
 // Host: smtp.hostinger.com
 // Porta: 465
 // Criptografia: SSL/TLS
-
 //rivaldosouzagrupofive@gmail.com
 //Senha2022#
 const nodemiler = require("nodemailer")
 const {google} = require("googleapis")
 const cors = require('cors')
-const FXLSX = require('xlsx')
 const Exceljs = require('exceljs')
+const FXLSX = require('xlsx')
 const express = require("express")
 const bodyParser = require("body-parser")
 const app = express();
@@ -18,10 +17,7 @@ app.use(express.json())
 app.use(cors())
 app.use(bodyParser.json())
 
-const workbook = FXLSX.readFile(`rdd/RDD_Brejinho.xlsx`)
-const workbookSheets = workbook.SheetNames
-const sheet = workbookSheets[0]
-const xlsxToJson = FXLSX.utils.sheet_to_json(workbook.Sheets[sheet], {raw: false})
+let tasks = []
 
 const CLIENT_ID = '423384737903-msrbt81085p12ips5g1m4o1jq8000q8i.apps.googleusercontent.com'
 const CLIENTE_SECRET = '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'
@@ -48,13 +44,13 @@ async function sendMail(){
 
         const mailOptions = {
             from: 'Rivaldo Souza <rivaldosouzagrupofive@gmail.com>',
-            to: 'rivaldosouzaxxii@gmail.com',
-            subject:'Deu certo essa bomba',
-            text:'deu certo finalmente',
+            to: 'rivaldosouzaxxii@gmail.com, rivaldosilva@si.fiponline.edu.br',
+            subject:'RDD referente ao dia '+ dataAtualFormatada(),
+            text:'Segue em anexo',
             attachments: [
                         {
-                            filename: `RDD_Brejinho-${dataAtualFormatada()}.xlsx`,
-                            path: `rdd/RDD_Brejinho.xlsx`
+                            filename: `RDD-Brejinho-${dataAtualFormatada()}.xlsx`,
+                            path: `rdd/RDD-Brejinho.xlsx`
                         }
                     ]
         }
@@ -80,46 +76,55 @@ function dataAtualFormatada(){
     return diaF+"/"+mesF+"/"+anoF;
 }
 
-app.post('/tasks', async (req, res) =>{
-    
-    const task = req.body
-    //xlsxToJson.push(task)
-    //xlsxToJson.pop(1)
+async function writeMyXlsx(tasks){
+    const exceljsWorkbook = new Exceljs.Workbook()
+    const exceljsSheet = exceljsWorkbook.addWorksheet('RDD')
 
-    //FXLSX.utils.sheet_add_json(workbook.Sheets[sheet], xlsxToJson)
-    //FXLSX.writeFile(workbook,`rdd/RDD_Brejinho.xlsx`)
-    //console.log(xlsxToJson)
-
-    const workbookExcel = new Exceljs.Workbook()
-    const sheet = workbookExcel.addWorksheet('RDD')
-    sheet.columns = [
-        {header: 'TIPO_DE_SERVICO', key:'TIPO_DE_SERVICO'},
-        {header: 'LOCALIDADE', key:'LOCALIDADE'},
-        {header: '', key:'HORA_INICIO'},
-        {header: 'HORA_FIM', key:'HORA_FIM'},
-        {header: 'TMA', key:'TMA'},
-        {header: 'EQUIPE_EXECUTORA', key:'EQUIPE_EXECUTORA'},
-        {header: 'DATA', key:'DATA'}
+    exceljsSheet.columns = [
+        {header: 'TIPO_DE_SERVICO', key:'TIPO_DE_SERVICO', width: 60},
+        {header: 'LOCALIDADE', key:'LOCALIDADE', width: 60},
+        {header: 'HORA_INICIO', key:'HORA_INICIO', width: 30},
+        {header: 'HORA_FIM', key:'HORA_FIM', width: 30},
+        {header: 'TMA', key:'TMA', width: 30},
+        {header: 'EQUIPE_EXECUTORA', key:'EQUIPE_EXECUTORA', width: 30},
+        {header: 'DATA', key:'DATA', width: 30}
     ]
 
-    sheet.addRow(task)
+    for (let index = 0; index < tasks.length; index++) {
+        await exceljsSheet.addRow(tasks[index])
+    }
+    
+    exceljsSheet.getRow(1).font ={bold: true, color: {argb: 'FFFFFFFF'}}
+    exceljsSheet.getRow(1).fill = {type: 'pattern', pattern: 'solid', bgColor: {argb: 'FF000000'}}
+    await exceljsSheet.workbook.xlsx.writeFile('rdd/RDD-Brejinho.xlsx')
+}
 
-    // sheet.addRow({
-    //     TIPO_DE_SERVICO: 'manutenção',
-    //     LOCALIDADE: 'Mussambe',
-    //     HORA_INICIO: '10:00',
-    //     HORA_FIM: '11:00',
-    //     TMA: '1:00',
-    //     EQUIPE_EXECUTORA: 'Rivaldo',
-    //     DATA: '19/04/2022'
-    // })
+async function readMyXlsx(rout){
+    const workbook = FXLSX.readFile(rout)
+    const workbookSheets = workbook.SheetNames
+    const sheet = workbookSheets[0]
+    const xlsxToJson = await FXLSX.utils.sheet_to_json(workbook.Sheets[sheet], {raw: false})
+    return xlsxToJson
+}
 
-    sheet.workbook.xlsx.writeFile('rdd/RDD_Brejinho.xlsx')
+app.post('/tasks', async (req, res) =>{
+    const task = req.body
+
+    await tasks.push(task)
+    console.log(tasks)
+    res.json(tasks)
+})
+
+app.post('/email', async (req, res) =>{
+    await writeMyXlsx(tasks)
+    setTimeout(function(){
+        sendMail().then(result => console.log('Email enviado', result)).catch(error => console.log(error.message))
+    },5000);
+    
 })
 
 app.get('/tasks', async (req, res) =>{
-    const xlsxToJson = FXLSX.utils.sheet_to_json(workbook.Sheets[sheet], {raw: false})
-    res.send(xlsxToJson)
+    res.json(tasks)
 })
 
 app.listen('3000', () =>{

@@ -19,7 +19,7 @@ const converter = (minutos) => {
   return `${textoHoras }:${textoMinutos}`;
 };
 
-console.log(converter(70));
+//console.log(converter(70));
 
 function setData(){
     let activit = document.getElementById("activit").value
@@ -44,24 +44,55 @@ function setData(){
         HORA_FIM: end,
         TMA: tma,
         EQUIPE_EXECUTORA: user,
-        Data: data
+        DATA: data
     }
 
     sendTask(task)
 }
 
-document.getElementById("send").addEventListener("click", setData)
+const loadTable = async(result)=>{
+
+    let bodyTable = document.querySelector('.body-table')
+    bodyTable.innerText = ''
+
+    for (let index = 0; index < result.data.length; index++) {
+        let tr = bodyTable.insertRow()
+            let td_ativi = tr.insertCell()
+            let td_local = tr.insertCell()
+            let td_inicio = tr.insertCell()
+            let td_fim = tr.insertCell()
+            let td_tma = tr.insertCell()
+            let td_equi = tr.insertCell()
+            let td_data = tr.insertCell()
+
+            td_ativi.innerText = result.data[index].TIPO_DE_SERVICO
+            td_local.innerText = result.data[index].LOCALIDADE
+            td_inicio.innerText = result.data[index].HORA_INICIO
+            td_fim.innerText = result.data[index].HORA_FIM
+            td_tma.innerText = result.data[index].TMA
+            td_equi.innerText = result.data[index].EQUIPE_EXECUTORA
+            td_data.innerText = result.data[index].DATA
+            
+    }
+}
+
+const sendMail = async() =>{
+    const result = await axios.post(`http://localhost:3000/email`);
+}
+
+document.getElementById("adTask").addEventListener("click", setData)
+document.getElementById("send").addEventListener("click", sendMail)
 
 const sendTask = async(task)=>{
-    console.log(task)
+    
     const result = await axios.post(`http://localhost:3000/tasks`,task);
+    loadTable(result)
 }
 
 const getTasks = async()=>{
     const result = await axios.get(`http://localhost:3000/tasks`);
-
-    console.log(result)
+    return result
 }
 
-
-getTasks()
+//const result =  getTasks()
+//console.log(result)

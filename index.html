@@ -8,22 +8,58 @@
     <title>Document</title>
 </head>
 <body>
-    <label for="uname">Atividade</label>
-    <input type="text" id="activit" value="name">
+    <main>
+        <div class="content">
+            <div class="content-form">
+                <div>
+                    <form action="">
+                        <label for="activit">Atividade:</label>
+                        <input type="text" id="activit" class="form-input">
+                    
+                        <label for="locate">Localidade:</label>
+                        <input type="text" id="locate" class="form-input">
+                    
+                        <label for="start">Hora inicio:</label>
+                        <input type="time" id="start" name="appt" class="form-input">
+                    
+                        <label for="and">Hora Fim:</label>
+                        <input type="time" id="and" name="appt" class="form-input">
+                    
+                        <label for="user">Nome usuario:</label>
+                        <input type="text" id="user" class="form-input">
+                        <div id="botaoAdd">
+                            <input id="adTask" type="button" value="Add">
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+            <div class="content-table">
+                <div class="table-wrapper">
+                    <table class="table">
+                        <th>Atividade</th>
+                        <th>Localidade</th>
+                        <th>Hora inicio</th>
+                        <th>Hora fim</th>
+                        <th>T.m.a</th>
+                        <th>Equipe</th>
+                        <th>Data</th>
+    
+                        <tbody class="body-table">
+                            <!--Corpo da tabela-->
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <input id="send" type="button" value="Enviar">
+                </div>
+            </div>
+        </div>
+    </main>
+   
 
-    <label for="uname">Localidade</label>
-    <input type="text" id="locate" value="name">
-
-    <label for="appt">Hora inicio:</label>
-    <input type="time" id="start" name="appt">
-
-    <label for="appt">Hora Fim:</label>
-    <input type="time" id="and" name="appt">
-
-    <label for="uname">Nome usuario</label>
-    <input type="text" id="user" value="name">
-
-    <input id="send" type="button" value="Enviar">
+    
+    
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="frontend/script/script.js"></script>
 </body>

@@ -3,6 +3,7 @@
 // Criptografia: SSL/TLS
 //rivaldosouzagrupofive@gmail.com
 //Senha2022#
+//danielalves@grupofiveinvestimentos.com.br
 const nodemiler = require("nodemailer")
 const {google} = require("googleapis")
 const cors = require('cors')
@@ -44,7 +45,7 @@ async function sendMail(){
 
         const mailOptions = {
             from: 'Rivaldo Souza <rivaldosouzagrupofive@gmail.com>',
-            to: 'rivaldosouzaxxii@gmail.com, rivaldosilva@si.fiponline.edu.br',
+            to: 'rivaldosouza@grupofiveinvestimentos.com.br, walfranio@grupofiveinvestimentos.com.br, wictorsantos@grupofiveinvestimentos.com.br',
             subject:'RDD referente ao dia '+ dataAtualFormatada(),
             text:'Segue em anexo',
             attachments: [
@@ -118,9 +119,9 @@ app.post('/tasks', async (req, res) =>{
 app.post('/email', async (req, res) =>{
     await writeMyXlsx(tasks)
     setTimeout(function(){
-        sendMail().then(result => console.log('Email enviado', result)).catch(error => console.log(error.message))
+        const result = sendMail().then(result => console.log('Email enviado', result)).catch(error => console.log(error.message))
+        
     },5000);
-    
 })
 
 app.get('/tasks', async (req, res) =>{

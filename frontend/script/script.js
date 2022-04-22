@@ -78,6 +78,7 @@ const loadTable = async(result)=>{
 
 const sendMail = async() =>{
     const result = await axios.post(`http://localhost:3000/email`);
+    console.log(result)
 }
 
 document.getElementById("adTask").addEventListener("click", setData)

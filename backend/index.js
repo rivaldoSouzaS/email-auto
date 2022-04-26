@@ -1,9 +1,11 @@
 // Host: smtp.hostinger.com
 // Porta: 465
 // Criptografia: SSL/TLS
-//rivaldosouzagrupofive@gmail.com
-//Senha2022#
-//danielalves@grupofiveinvestimentos.com.br
+//  rivaldosouza@grupofiveinvestimentos.com.br
+//  rivaldosouzagrupofive@gmail.com
+//  Senha2022#
+//  danielalves@grupofiveinvestimentos.com.br
+//, walfranio@grupofiveinvestimentos.com.br, wictorsantos@grupofiveinvestimentos.com.br
 const nodemiler = require("nodemailer")
 const {google} = require("googleapis")
 const cors = require('cors')
@@ -20,32 +22,22 @@ app.use(bodyParser.json())
 
 let tasks = []
 
-const CLIENT_ID = '423384737903-msrbt81085p12ips5g1m4o1jq8000q8i.apps.googleusercontent.com'
-const CLIENTE_SECRET = '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'
-const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
-const REFRESH_TOKEN = '1//04uqLnTAlPvSSCgYIARAAGAQSNwF-L9Ir51aJJGDyFdnEbnHiJRWnN68DDKk6zyGcYV4O-Mzb6Uk3xvkU4H5jSJDXPcqbnS5GRTk'
-
-const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENTE_SECRET, REDIRECT_URI)
-oAuth2Client.setCredentials({refresh_token: REFRESH_TOKEN})
-
 async function sendMail(){
     try {
-        const accessToken = await oAuth2Client.getAccessToken()
+        
         const transport = nodemiler.createTransport({
-            service:'gmail',
+            host: 'smtp.hostinger.com',
+            port: 465,
+            secure: true,
             auth:{
-                type:'oauth2',
-                user:'rivaldosouzagrupofive@gmail.com',
-                clientId: CLIENT_ID,
-                clientSecret: CLIENTE_SECRET,
-                refreshToken: REFRESH_TOKEN,
-                accessToken: accessToken
+                user:'rivaldosouza@grupofiveinvestimentos.com.br',
+                pass: 'Agility2022#'
             }
         })
 
         const mailOptions = {
-            from: 'Rivaldo Souza <rivaldosouzagrupofive@gmail.com>',
-            to: 'rivaldosouza@grupofiveinvestimentos.com.br, walfranio@grupofiveinvestimentos.com.br, wictorsantos@grupofiveinvestimentos.com.br',
+            from: 'Rivaldo Souza <rivaldosouza@grupofiveinvestimentos.com.br>',
+            to: 'rivaldosouza@grupofiveinvestimentos.com.br',
             subject:'RDD referente ao dia '+ dataAtualFormatada(),
             text:'Segue em anexo',
             attachments: [

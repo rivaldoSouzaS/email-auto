@@ -6,6 +6,7 @@
 //  Senha2022#
 //  danielalves@grupofiveinvestimentos.com.br
 //, walfranio@grupofiveinvestimentos.com.br, wictorsantos@grupofiveinvestimentos.com.br
+//'rivaldosouza@grupofiveinvestimentos.com.br, walfranio@grupofiveinvestimentos.com.br, wictorsantos@grupofiveinvestimentos.com.br'
 const nodemiler = require("nodemailer")
 const {google} = require("googleapis")
 const cors = require('cors')
@@ -35,9 +36,12 @@ async function sendMail(){
             }
         })
 
+        listEmails = await readMyXlsx(`rdd/LISTA-EMAILS.xlsx`)
+        const recipients = StringEmails(listEmails)
+        
         const mailOptions = {
             from: 'Rivaldo Souza <rivaldosouza@grupofiveinvestimentos.com.br>',
-            to: 'rivaldosouza@grupofiveinvestimentos.com.br',
+            to: recipients,
             subject:'RDD referente ao dia '+ dataAtualFormatada(),
             text:'Segue em anexo',
             attachments: [
@@ -98,6 +102,15 @@ async function readMyXlsx(rout){
     const sheet = workbookSheets[0]
     const xlsxToJson = await FXLSX.utils.sheet_to_json(workbook.Sheets[sheet], {raw: false})
     return xlsxToJson
+}
+
+const StringEmails = (jsonEmails) =>{
+    let mails =""
+    for(let i =0; i < jsonEmails.length; i++){
+	    mails += jsonEmails[i].EMAIL +", "
+    }
+    const result = mails.substring(0, mails.length - 2)
+    return result
 }
 
 app.post('/tasks', async (req, res) =>{

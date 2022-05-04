@@ -1,3 +1,6 @@
+
+let url = `http://localhost:3000/`
+
 function parse(horario) {
     let [hora, minuto] = horario.split(':').map(v => parseInt(v));
     if (!minuto) {
@@ -77,23 +80,30 @@ const loadTable = async(result)=>{
 }
 
 const sendMail = async() =>{
-    const result = await axios.post(`http://localhost:3000/email`);
+    const result = await axios.post(`${url}email`);
     console.log(result)
+}
+
+const sendTask = async(task)=>{
+    
+    const result = await axios.post(`${url}tasks`,task);
+    loadTable(result)
+}
+
+const getTasks = async()=>{
+    const result = await axios.get(`${url}tasks`);
+    loadTable(result)
+}
+
+const clearTasks = async() =>{
+    const result = await axios.put(`${url}tasks`);
+    window.location.reload();
 }
 
 document.getElementById("adTask").addEventListener("click", setData)
 document.getElementById("send").addEventListener("click", sendMail)
 
-const sendTask = async(task)=>{
-    
-    const result = await axios.post(`http://localhost:3000/tasks`,task);
-    loadTable(result)
-}
+document.getElementById("clear").addEventListener("click", clearTasks)
 
-const getTasks = async()=>{
-    const result = await axios.get(`http://localhost:3000/tasks`);
-    return result
-}
-
-//const result =  getTasks()
 //console.log(result)
+getTasks()

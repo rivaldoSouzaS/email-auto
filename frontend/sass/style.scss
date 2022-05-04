@@ -97,10 +97,13 @@ main{
     
             div{
                 display: flex;
-                justify-content: flex-end;
+                justify-content: space-between; //flex-end
                 padding-right: 20px;
+                
+                //background-color: red;
 
                 input{
+                    margin-left: 15px;
                     border: none;
                     border-radius: 5px;
                     background-color: rgb(14, 14, 41);

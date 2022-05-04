@@ -133,6 +133,14 @@ app.get('/tasks', async (req, res) =>{
     res.json(tasks)
 })
 
+app.put('/tasks', async (req, res) =>{
+    while(tasks.length) {
+        tasks.pop();
+    }
+    console.log(tasks)
+    res.json(tasks)
+})
+
 app.listen('3000', () =>{
     console.log('server running on port 3000');
 })

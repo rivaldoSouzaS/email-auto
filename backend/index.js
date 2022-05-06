@@ -141,6 +141,16 @@ app.put('/tasks', async (req, res) =>{
     res.json(tasks)
 })
 
+app.put('/tasks/edit', async (req, res) =>{
+    const taskEdited = req.body
+    while(tasks.length) {
+        tasks.pop();
+    }
+    tasks = taskEdited
+    console.log(taskEdited)
+    res.json(tasks)
+})
+
 app.listen('3000', () =>{
     console.log('server running on port 3000');
 })

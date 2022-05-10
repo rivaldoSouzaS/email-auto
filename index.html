@@ -14,11 +14,18 @@
                 <div>
                     <form action="">
                         <label for="activit">Atividade:</label>
-                        <input type="text" id="activit" class="form-input">
+                        <div class="refresh">
+                            <input type="text" id="activit" class="form-input">
+                            <img id="buscar-atividade" class="refresh-img" src="img/refresh.png" alt="">
+                        </div>
+                        
                     
                         <label for="locate">Localidade:</label>
-                        <input type="text" id="locate" class="form-input">
-                    
+                        <div class="refresh">
+                            <input type="text" id="locate" class="form-input">
+                            <img id="buscar-localidade" class="refresh-img" src="img/refresh.png" alt="">
+                        </div>
+                        
                         <label for="start">Hora inicio:</label>
                         <input type="time" id="start" name="appt" class="form-input">
                     
@@ -59,6 +66,24 @@
                     </div>
                     <input id="send" type="button" class="buttons" value="Enviar">
                 </div>
+            </div>
+        </div>
+
+        <div class="content-info">
+            <div class="content-table">
+                <div class="table-wrapper">
+                    <table class="table-tips">
+                        <th>Atividades</th>
+                        <tbody class="body-table-tips">
+                            <!--Corpo da tabela-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="inputs">
+                    <input id="add-tip" type="text" class="buttons-tips">
+                    <input id="save-tip" type="button" class="buttons-tips" value="Salvar">
+                </div>
+                
             </div>
         </div>
     </main>

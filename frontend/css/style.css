@@ -58,6 +58,21 @@ main .content .content-form div form #botaoAdd {
   border-color: rgb(14, 14, 41);
   padding: 0px;
 }
+main .content .content-form div form .refresh {
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 3px 0px 0px;
+  border: 0.3px solid;
+}
+main .content .content-form div form .refresh input {
+  border: none;
+}
+main .content .content-form div form .refresh img {
+  height: 19px;
+  border-radius: 5px;
+}
 main .content .content-table {
   display: flex;
   flex-direction: column;
@@ -98,4 +113,52 @@ main .content .content-table div input {
   color: white;
   padding: 3px 35px;
   margin-bottom: 5px;
+}
+main .content-info {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  z-index: -1;
+  opacity: 0;
+  top: 0px;
+  background-color: rgba(255, 255, 255, 0.479);
+  height: 100vh;
+  width: 100vw;
+  transition-timing-function: ease-in;
+  transition-duration: 0.3s;
+}
+main .content-info .content-table {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  top: 25%;
+  height: 50vh;
+  width: 80vw;
+  background-color: red;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+}
+main .content-info .content-table .table-wrapper {
+  height: 100%;
+  width: 100%;
+  background-color: green;
+}
+main .content-info .content-table .table-wrapper .table-tips {
+  width: 100%;
+}
+main .content-info .content-table .table-wrapper .table-tips th {
+  display: flex;
+  justify-content: flex-start;
+  position: -webkit-sticky;
+  position: sticky;
+  padding: 3px 0px 3px 5px;
+  top: 2px;
+  background-color: rgb(14, 14, 41);
+  color: white;
+}
+main .content-info .content-table .inputs {
+  background-color: yellow;
+}
+main .content-info-show {
+  opacity: 1;
+  z-index: 1;
 }/*# sourceMappingURL=style.css.map */

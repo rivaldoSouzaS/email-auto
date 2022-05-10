@@ -1,6 +1,8 @@
 
 let url = `http://localhost:3000/`
 let taksUpdate = []
+let tips = []
+tips = JSON.parse(localStorage.getItem("tipsList"))
 let indexToRemove
 
 function parse(horario) {
@@ -155,10 +157,32 @@ const clearTasks = async() =>{
     window.location.reload();
 }
 
+function saveTips(){
+    let tip = document.getElementById("add-tip").value
+    tips.push(tip)
+    localStorage.setItem("tipsList", JSON.stringify(tips))
+    console.log(tips)
+}
+
 document.getElementById("adTask").addEventListener("click", sendTask)
 document.getElementById("send").addEventListener("click", sendMail)
 document.getElementById("edit").addEventListener("click", editTasks)
 document.getElementById("clear").addEventListener("click", clearTasks)
+document.getElementById("save-tip").addEventListener("click", saveTips)
+
+document.getElementById("buscar-localidade").addEventListener("click", event =>{
+    console.log("ok")
+    toggleFormSaida()
+})
+
+document.getElementById("buscar-atividade").addEventListener("click", event =>{
+    console.log("ok")
+})
+
+function toggleFormSaida(){
+    const infos = document.querySelector(".content-info");
+    infos.classList.toggle("content-info-show");
+}
 
 //console.log(result)
 getTasks()

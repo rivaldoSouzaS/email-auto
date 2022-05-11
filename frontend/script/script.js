@@ -3,6 +3,8 @@ let url = `http://localhost:3000/`
 let taksUpdate = []
 let tips = []
 tips = JSON.parse(localStorage.getItem("tipsList"))
+let tipsLocal = []
+tipsLocal = JSON.parse(localStorage.getItem("tipsListLocal"))
 let indexToRemove
 
 function parse(horario) {
@@ -158,10 +160,52 @@ const clearTasks = async() =>{
 }
 
 function saveTips(){
-    let tip = document.getElementById("add-tip").value
-    tips.push(tip)
-    localStorage.setItem("tipsList", JSON.stringify(tips))
-    console.log(tips)
+    let boato = document.getElementById("save-tip").value
+    
+    if(boato === "Salvar localidade"){
+        console.log("ok")
+        let tip = document.getElementById("add-tip").value
+        tipsLocal.push(tip)
+        localStorage.setItem("tipsListLocal", JSON.stringify(tipsLocal))
+    }
+    if(boato === "Salvar atividade"){
+        let tip = document.getElementById("add-tip").value
+        tips.push(tip)
+        localStorage.setItem("tipsList", JSON.stringify(tips))
+    }
+}
+
+const loadTableTips = async(result)=>{
+    let bodyTableTips = document.querySelector('.body-table-tips')
+    bodyTableTips.innerText = ''
+
+    for (let index = 0; index < result.length; index++) {
+        let tr = bodyTableTips.insertRow()
+            
+            let td_ativi = tr.insertCell()
+            td_ativi.innerText = result[index]
+        
+        tr.addEventListener("click", event =>{
+            for (let index = 0; index < bodyTableTips.children.length; index++) {
+                bodyTableTips.children[index].style.backgroundColor = 'white'
+            }
+            event.target.parentElement.style.backgroundColor = 'red'
+
+
+            let text = event.target.parentElement.children[0].textContent
+            
+            if(document.getElementById("table-tips-th").textContent === "Atividades"){
+                document.getElementById("activit").value = text
+            }
+            else{
+                document.getElementById("locate").value = text
+            }
+
+
+            const infos = document.querySelector(".content-info");
+            infos.classList.toggle("content-info-show");
+        })
+    }
 }
 
 document.getElementById("adTask").addEventListener("click", sendTask)
@@ -171,17 +215,31 @@ document.getElementById("clear").addEventListener("click", clearTasks)
 document.getElementById("save-tip").addEventListener("click", saveTips)
 
 document.getElementById("buscar-localidade").addEventListener("click", event =>{
-    console.log("ok")
-    toggleFormSaida()
+    toggleActivit(event)
+    
 })
 
 document.getElementById("buscar-atividade").addEventListener("click", event =>{
-    console.log("ok")
+    
+    toggleActivit(event)
 })
 
-function toggleFormSaida(){
+function toggleActivit(event){
     const infos = document.querySelector(".content-info");
     infos.classList.toggle("content-info-show");
+
+    //console.log(event.target.parentElement.children[1].id)
+    if(event.target.parentElement.children[1].id === "buscar-localidade"){
+        document.getElementById("save-tip").value = "Salvar localidade"
+        document.getElementById("table-tips-th").textContent = "Localidades"
+        loadTableTips(tipsLocal)
+    }
+    else{
+        document.getElementById("save-tip").value = "Salvar atividade"
+        document.getElementById("table-tips-th").textContent = "Atividades"
+        loadTableTips(tips)
+    }
+    
 }
 
 //console.log(result)

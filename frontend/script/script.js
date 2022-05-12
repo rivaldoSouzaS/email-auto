@@ -208,11 +208,17 @@ const loadTableTips = async(result)=>{
     }
 }
 
+const cancelTips = ()=>{
+    const infos = document.querySelector(".content-info");
+    infos.classList.toggle("content-info-show");
+}
+
 document.getElementById("adTask").addEventListener("click", sendTask)
 document.getElementById("send").addEventListener("click", sendMail)
 document.getElementById("edit").addEventListener("click", editTasks)
 document.getElementById("clear").addEventListener("click", clearTasks)
 document.getElementById("save-tip").addEventListener("click", saveTips)
+document.getElementById("cancel-tip").addEventListener("click", cancelTips)
 
 document.getElementById("buscar-localidade").addEventListener("click", event =>{
     toggleActivit(event)

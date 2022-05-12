@@ -149,15 +149,29 @@ main .content-info .content-table .table-wrapper .table-tips {
 main .content-info .content-table .table-wrapper .table-tips th {
   position: -webkit-sticky;
   position: sticky;
-  align-items: unset;
+  text-align: left;
   top: 0px;
   padding: 3px 0px 3px 5px;
   top: 2px;
   background-color: rgb(14, 14, 41);
   color: white;
 }
-main .content-info .content-table .inputs {
-  background-color: yellow;
+main .content-info .content-table .inputs input {
+  margin-left: 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(14, 14, 41);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  color: white;
+  padding: 3px 35px;
+  margin-bottom: 5px;
+}
+main .content-info .content-table .inputs input[type=text] {
+  background-color: white;
+  color: black;
+  outline: none;
+  border: 1px solid;
 }
 main .content-info-show {
   opacity: 1;
